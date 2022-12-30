@@ -1,0 +1,17 @@
+name: Test
+
+on: push
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ 7.3, 7.4, 8.0, 8.1, 8.2  ]
+    steps:
+    - uses: actions/checkout@v3
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+    - run: composer install
+    - run: composer exec phpunit -- tests/ReproduceTest.php --testdox --colors
